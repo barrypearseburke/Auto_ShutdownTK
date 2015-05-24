@@ -47,15 +47,13 @@ class GUI():
 
     def cal(self):
         time = self.user.get()
-        print(time)
-
         self.shutdownsys.run(time)
+        self.parent.destroy()
 
     def value(self,value):
         print(value)
-
         self.shutdownsys.run(value)
-
+        self.parent.destroy()
 
 class Shutdown():
     def __init__(self):
