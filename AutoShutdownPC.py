@@ -13,28 +13,30 @@ class GUI():
         self.frame = Frame(self.parent)
         self.frame.grid(row=0,column=0)
 
-        self.shudowntitle = Label(parent, text="When would you like to shutdown your pc")
-        self.shudowntitle.grid(row=0, column=0, columnspan=5, sticky=W+E)
+        self.labelfonttitle = ("TkDefaultFont", 14)
+        self.shutdowntitle = Label(parent, text="In how many minutes would you like to Auto Shutdown?",)
+        self.shutdowntitle.config(font = self.labelfonttitle)
+        self.shutdowntitle.grid(row=0, column=0, columnspan=3,sticky=W+E)
 
 
-        self.other = Label(parent, text="Other")
+        self.other = Label(parent, text="Other (In Minutes)")
         self.other.grid(row=1, column=5, sticky=W+E)
 
-        self.min25 = Button(parent,text="25 Minutes", command= lambda: self.value(25))
+        self.min25 = Button(parent,text="25 Minutes",padx=30, command= lambda: self.value(25))
         self.min25.grid(row=2, column=0, sticky=W+E)
 
 
-        self.min45 = Button(parent,text="45 Minutes",command= lambda: self.value(45))
+        self.min45 = Button(parent,text="45 Minutes",padx=30,command= lambda: self.value(45))
         self.min45.grid(row=2, column=1, sticky=W+E)
 
-        self.min60 = Button(parent,text="60 Minutes",command= lambda: self.value(60))
+        self.min60 = Button(parent,text="60 Minutes",padx=30,command= lambda: self.value(60))
         self.min60.grid(row=2, column=2, sticky=W+E)
 
-        self.min75 = Button(parent,text="75 Minutes" ,command= lambda: self.value(75))
+        self.min75 = Button(parent,text="75 Minutes" ,padx=30,command= lambda: self.value(75))
         self.min75.grid(row=2, column=3, sticky=W+E)
 
 
-        self.min90 = Button(parent,text="90 Minutes", command= lambda: self.value(90))
+        self.min90 = Button(parent,text="90 Minutes",padx=30, command= lambda: self.value(90))
         self.min90.grid(row=2, column=4, sticky=W+E)
 
         self.user = Entry(parent)
@@ -43,12 +45,28 @@ class GUI():
         self.Enter =Button(parent,text ="Other Shutdown",command =self.cal)
         self.Enter.grid(row=3,column =5 ,sticky =W+E)
 
+        self.error =StringVar()
+        self.errorlabel=Label(self.parent,textvariable = self.error)
+        self.error.set("")
+        self.errorlabel.grid(row=3,column=1,columnspan=3)
+
 
 
     def cal(self):
+        success =False
         time = self.user.get()
-        self.shutdownsys.run(time)
-        self.parent.destroy()
+        try:
+            time =int(time)
+            success =True
+
+        except ValueError:
+            self.error.set("ERROR ,\" {} \" is not a valid number".format(time))
+
+        if success == True:
+            self.shutdownsys.run(time)
+            self.parent.destroy()
+
+
 
     def value(self,value):
         print(value)
